@@ -1,0 +1,10 @@
+node_modules/
+*.tsbuildinfo
+cordis.overlay.yml
+.DS_Store
+Thumbs.db
+*.tgz
+jumeng-media-tmp-backup/
+.env
+.env.*
+!.env.example

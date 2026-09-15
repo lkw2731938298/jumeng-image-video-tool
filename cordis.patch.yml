@@ -1,0 +1,12 @@
+- insert:
+    - id: jumeng-media
+      name: jumeng-media
+      config:
+        apiKeyEnv: JUMENG_API_KEY
+        baseUrl: https://www.jumengai.com/v1
+        imageModel: ''
+        videoModel: ''
+        outputDir: ./outputs
+        imageTimeoutMs: 300000
+        videoPollIntervalMs: 10000
+        videoTimeoutMs: 900000

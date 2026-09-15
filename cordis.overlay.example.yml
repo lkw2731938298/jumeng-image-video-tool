@@ -1,0 +1,12 @@
+# 本地开发覆盖层示例（dsh web --patch ./cordis.overlay.yml）
+# 密钥请在 Web UI「设置 → 插件 → 插件配置 → 聚梦媒体」中填写，不要写进本文件。
+# name 换成你本机插件路径，或使用 npm/Git 安装后的包名 jumeng-media。
+- insert:
+    - id: jumeng-media
+      name: jumeng-media
+      config:
+        apiKeyEnv: JUMENG_API_KEY
+        baseUrl: https://www.jumengai.com/v1
+        imageModel: ''
+        videoModel: ''
+        outputDir: ./outputs

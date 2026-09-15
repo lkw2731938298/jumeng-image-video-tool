@@ -4,12 +4,12 @@
   "description": "DeepSeek Harness 插件：对接聚梦 AI 生图与生视频（Web UI 插件配置卡）",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lkw2731938298/jumeng--.git"
+    "url": "git+https://github.com/lkw2731938298/jumeng-image-video-tool.git"
   },
   "bugs": {
-    "url": "https://github.com/lkw2731938298/jumeng--/issues"
+    "url": "https://github.com/lkw2731938298/jumeng-image-video-tool/issues"
   },
-  "homepage": "https://github.com/lkw2731938298/jumeng--#readme",
+  "homepage": "https://github.com/lkw2731938298/jumeng-image-video-tool#readme",
   "keywords": [
     "deepseek-harness",
     "dsh-plugin",

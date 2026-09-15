@@ -3,7 +3,7 @@
 DeepSeek Harness 插件：对接 [聚梦 AI](https://www.jumengai.com/)，在对话中生成**图片**与**视频**，结果落盘到本地并返回远程链接。
 
 - 官网：[https://www.jumengai.com/](https://www.jumengai.com/)
-- 海外官网：[https://www.jumengai.com/](https://www.jumengai.com/)
+- 海外官网：[https://www.jumai.ai/](https://www.jumai.ai/)
 - 文档：[https://doc.jumengai.com/guide/intro](https://doc.jumengai.com/guide/intro)
 - 仓库：[lkw2731938298/jumeng-image-video-tool](https://github.com/lkw2731938298/jumeng-image-video-tool)
 

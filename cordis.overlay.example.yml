@@ -10,3 +10,4 @@
         imageModel: ''
         videoModel: ''
         outputDir: ./outputs
+        uploadTimeoutMs: 120000

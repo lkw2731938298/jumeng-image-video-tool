@@ -1,6 +1,6 @@
-﻿{
+{
   "name": "jumeng-media",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "DeepSeek Harness 插件：对接聚梦 AI 生图与生视频（Web UI 插件配置卡）",
   "repository": {
     "type": "git",

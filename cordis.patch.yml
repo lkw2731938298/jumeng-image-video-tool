@@ -10,3 +10,4 @@
         imageTimeoutMs: 300000
         videoPollIntervalMs: 10000
         videoTimeoutMs: 900000
+        uploadTimeoutMs: 120000

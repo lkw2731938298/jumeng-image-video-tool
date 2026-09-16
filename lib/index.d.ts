@@ -14,6 +14,7 @@ export interface Config {
     imageTimeoutMs: number;
     videoPollIntervalMs: number;
     videoTimeoutMs: number;
+    uploadTimeoutMs: number;
 }
 export declare const Config: Schema<Config>;
 export declare function apply(ctx: Context, config: Config): void;

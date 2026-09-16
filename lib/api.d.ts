@@ -22,6 +22,24 @@ export interface VideoTaskStatus {
     result_url?: string;
     fail_reason?: string;
 }
+/** Successful `/files/upload` response; `url` expires about one hour after `created_at`. */
+export interface JumengFile {
+    id?: string;
+    object?: string;
+    bytes?: number;
+    created_at?: number;
+    expires_at?: number;
+    filename?: string;
+    purpose?: string;
+    kind?: string;
+    url: string;
+}
+/** Bytes plus the metadata `/files/upload` needs for its `file` part. */
+export interface UploadPayload {
+    data: Uint8Array;
+    filename: string;
+    mime: string;
+}
 export interface GenerateImageParams {
     model: string;
     prompt: string;
@@ -63,6 +81,15 @@ export declare class JumengClient {
     private endpoint;
     private request;
     listModels(signal?: AbortSignal): Promise<JumengModel[]>;
+    /**
+     * Upload one reference image or video and return its temporary public URL.
+     * @param payload File bytes with the filename and MIME type sent in the `file` part.
+     * @returns Upload record whose `url` other endpoints accept as a reference.
+     */
+    uploadFile(payload: UploadPayload, opts?: {
+        signal?: AbortSignal;
+        timeoutMs?: number;
+    }): Promise<JumengFile>;
     generateImage(params: GenerateImageParams, opts?: {
         signal?: AbortSignal;
         timeoutMs?: number;

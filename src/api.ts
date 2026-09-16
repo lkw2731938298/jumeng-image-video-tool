@@ -26,6 +26,26 @@ export interface VideoTaskStatus {
   fail_reason?: string
 }
 
+/** Successful `/files/upload` response; `url` expires about one hour after `created_at`. */
+export interface JumengFile {
+  id?: string
+  object?: string
+  bytes?: number
+  created_at?: number
+  expires_at?: number
+  filename?: string
+  purpose?: string
+  kind?: string
+  url: string
+}
+
+/** Bytes plus the metadata `/files/upload` needs for its `file` part. */
+export interface UploadPayload {
+  data: Uint8Array
+  filename: string
+  mime: string
+}
+
 export interface GenerateImageParams {
   model: string
   prompt: string
@@ -101,7 +121,8 @@ export class JumengClient {
         signal: controller.signal,
         headers: {
           Authorization: `Bearer ${this.apiKey.trim()}`,
-          ...(rest.body ? { 'Content-Type': 'application/json' } : {}),
+          // FormData bodies must keep the boundary fetch generates for them.
+          ...(typeof rest.body === 'string' ? { 'Content-Type': 'application/json' } : {}),
           ...(rest.headers || {}),
         },
       })
@@ -140,6 +161,34 @@ export class JumengClient {
       timeoutMs: 60_000,
     })
     return Array.isArray(data?.data) ? data.data : []
+  }
+
+  /**
+   * Upload one reference image or video and return its temporary public URL.
+   * @param payload File bytes with the filename and MIME type sent in the `file` part.
+   * @returns Upload record whose `url` other endpoints accept as a reference.
+   */
+  async uploadFile(
+    payload: UploadPayload,
+    opts?: { signal?: AbortSignal; timeoutMs?: number },
+  ): Promise<JumengFile> {
+    const form = new FormData()
+    // Node's Buffer is a valid BlobPart, but its declared ArrayBufferLike backing
+    // store does not satisfy the DOM BlobPart type.
+    const part = payload.data as unknown as BlobPart
+    form.append('file', new Blob([part], { type: payload.mime }), payload.filename)
+
+    const data = await this.request<JumengFile & { data?: JumengFile }>('/files/upload', {
+      method: 'POST',
+      body: form,
+      signal: opts?.signal,
+      timeoutMs: opts?.timeoutMs ?? 120_000,
+    })
+    const file = data?.url ? data : data?.data
+    if (!file?.url) {
+      throw new JumengApiError(`上传成功但未返回 url: ${payload.filename}`, undefined, data)
+    }
+    return file
   }
 
   async generateImage(

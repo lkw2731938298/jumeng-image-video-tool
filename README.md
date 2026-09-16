@@ -12,8 +12,21 @@ DeepSeek Harness 插件：对接 [聚梦 AI](https://www.jumengai.com/)，在对
 | Tool | 作用 |
 | --- | --- |
 | `list_models` | 列出可用模型（`image` / `video`） |
+| `upload_file` | 上传本地图片 / 视频，换取临时参考 URL |
 | `generate_image` | 文生图 / 图生图；落盘 + URL |
 | `generate_video` | 文生视频 / 图生视频；轮询完成后落盘 + URL |
+
+## 参考素材
+
+`generate_image` 的 `image` 与 `generate_video` 的 `image` / `images` 都接受三种写法：
+
+- **http(s) URL**：直接透传给生成接口
+- **本地文件路径**：读盘后经 `POST {baseUrl}/files/upload` 上传，用返回的 URL 生成
+- **base64 / data URL**：解码后同样先上传
+
+类型与大小按上传接口的限制校验：图片 JPEG / PNG / GIF / WEBP 最大 10MB，视频 MP4 / MOV / WebM 最大 100MB；不符合的会在发请求前报错。上传得到的 URL 约 **1 小时** 后失效，同一密钥每小时最多 50 个文件。
+
+需要一份素材复用多次时，可先显式调用 `upload_file` 拿到 URL，再传给多次生成调用。
 
 ## 安装
 
@@ -55,9 +68,12 @@ dsh plugin --profile web add ./jumeng-media-0.1.1.tgz
 | --- | --- |
 | `apiKey` | 字面量密钥（secret；优先用 Web UI 凭据） |
 | `apiKeyEnv` | 凭据引用名，默认 `JUMENG_API_KEY` |
-| `baseUrl` | 默认 `https://www.jumengai.com/v1` |
+| `baseUrl` | 默认 `https://www.jumengai.com/v1`；国际站改为 `https://www.jumai.ai/v1` |
 | `imageModel` / `videoModel` | 可选默认模型 |
 | `outputDir` | 默认 `./outputs` |
+| `imageTimeoutMs` | 生图请求超时，默认 300000 |
+| `videoPollIntervalMs` / `videoTimeoutMs` | 视频轮询间隔与最长等待，默认 10000 / 900000 |
+| `uploadTimeoutMs` | 参考素材上传超时，默认 120000 |
 
 ## 本地开发
 
